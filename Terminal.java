@@ -104,7 +104,29 @@ public class Terminal {
                         }
                     }
                     else if (command.equals("/start")) {
-                        sendMenu(Owner_id);                    }
+                        sendMenu(Owner_id);
+                    }
+                    else if (command.startsWith("/get")) {
+                        if (chatId.equals(Owner_id)) {
+                            if (command.length() <= 5 ) {
+                                sendMessage(chatId, "Please specify the path.");
+                            } else {
+                                String path = command.substring(5).trim();
+                                java.io.File file = new java.io.File(path);
+
+                                if (file.exists()) {
+                                    sendMessage(chatId, "Uploading " + file.getName() + "....");
+
+                                    String curlCmd = "curl -F chat_id=" + chatId + " -F document=@\"" + path + "\"" + " https://api.telegram.org/bot" + token + "/sendDocument";
+                                    executeCommand(curlCmd);
+                            } else {
+                                sendMessage(chatId, "File not found." + path);
+                            }
+                        }
+                        } else {
+                            sendMessage(Owner_id, "⛔ Access Denied.");
+                        }
+                    }
                     else {
                         System.out.println("   [Action] Unknown command.");
                     }

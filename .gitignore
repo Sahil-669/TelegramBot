@@ -1,1 +1,10 @@
+# Configuration
 config.properties
+
+# Build Artifacts
+*.class
+*.jar
+
+# Logs
+nohup.out
+
